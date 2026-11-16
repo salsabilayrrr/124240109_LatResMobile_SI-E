@@ -1,25 +1,19 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../models/item_model.dart';
 import 'auth_service.dart';
 
 class FavoriteService extends ChangeNotifier {
-  // Pola Singleton: Memastikan hanya ada 1 wujud FavoriteService di seluruh aplikasi
   static final FavoriteService _instance = FavoriteService._internal();
   factory FavoriteService() => _instance;
   FavoriteService._internal();
 
-  // Daftar keranjang penampung artikel favorit di memori aktif
   final List<ItemModel> _favorites = [];
 
   // Getter agar halaman lain bisa membaca daftar favorit tanpa bisa merusaknya langsung
   List<ItemModel> get favorites => List.unmodifiable(_favorites);
 
-  // Kunci Unik Pengaman: Menggabungkan kategori dan ID agar tidak saling bentrok
-  // Contoh: ID 12 di 'articles' kuncinya "articles_12", di 'blogs' jadi "blogs_12"
   String _getItemKey(ItemModel item) => '${item.category}_${item.id}';
 
   // 1. Inisialisasi: Membaca data favorit dari SharedPreferences saat aplikasi jalan
@@ -46,7 +40,6 @@ class FavoriteService extends ChangeNotifier {
       }
     }
 
-    // Bunyikan bel (notifyListeners) agar semua halaman tahu data favorit sudah siap
     notifyListeners();
   }
 
@@ -56,22 +49,17 @@ class FavoriteService extends ChangeNotifier {
   }
 
   // 3. Fungsi Toggle (Tambah / Hapus) dari Halaman Detail
-  // Mengembalikan true jika ditambahkan, false jika dihapus (untuk membedakan pesan SnackBar)
   Future<bool> toggleFavorite(ItemModel item) async {
     final bool alreadyFav = isFavorite(item);
 
     if (alreadyFav) {
-      // Jika sudah ada -> Hapus dari keranjang
       _favorites.removeWhere((fav) => _getItemKey(fav) == _getItemKey(item));
     } else {
-      // Jika belum ada -> Masukkan ke keranjang
       _favorites.add(item);
     }
 
-    // Simpan perubahan ke SharedPreferences HP
     await _saveToPrefs();
 
-    // Bunyikan lonceng agar Halaman Detail & Halaman Favorit otomatis update live
     notifyListeners();
 
     return !alreadyFav; // true = baru ditambahkan, false = baru dihapus

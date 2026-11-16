@@ -51,7 +51,6 @@ class _DetailPageState extends State<DetailPage> {
     final Uri uri = Uri.parse(urlString);
 
     try {
-      // Membuka browser eksternal HP (Chrome / browser bawaan)
       final bool launched = await launchUrl(
         uri,
         mode: LaunchMode.externalApplication,
@@ -77,7 +76,6 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
-  // Fungsi toggle tombol hati di AppBar
   void _handleToggleFavorite() async {
     final bool isAdded = await _favService.toggleFavorite(widget.item);
 
@@ -126,7 +124,7 @@ class _DetailPageState extends State<DetailPage> {
           color: Color(0xFF5C5CFF),
         ),
       ),
-      // Isi Halaman Detail yang Scrollable
+
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,7 +198,6 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Garis Pembatas Halus
                   Divider(color: Colors.grey.shade300),
                   const SizedBox(height: 12),
 
@@ -216,7 +213,6 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
 
-                  // Ruang kosong tambahan di bagian bawah agar teks tidak tertutup tombol Buka Web
                   const SizedBox(height: 80),
                 ],
               ),

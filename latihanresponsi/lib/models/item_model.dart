@@ -1,13 +1,12 @@
-// Model Data Generik untuk News, Blog, dan Reports
 class ItemModel {
   final int id;
   final String title;
-  final String author; // Sesuai catatan soal: diambil dari field news_site di API
+  final String author; 
   final String imageUrl;
   final String summary;
   final String publishedAt;
   final String url;
-  final String category; // Penanda kategori: 'articles', 'blogs', atau 'reports'
+  final String category; 
 
   ItemModel({
     required this.id,

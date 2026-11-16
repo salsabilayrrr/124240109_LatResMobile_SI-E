@@ -16,13 +16,11 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   void initState() {
     super.initState();
-    // Memasang pendengar: setiap kali ada perubahan data favorit, layar ini langsung me-refresh diri
     _favService.addListener(_onFavoriteChanged);
   }
 
   @override
   void dispose() {
-    // Melepas pendengar saat halaman ditutup
     _favService.removeListener(_onFavoriteChanged);
     super.dispose();
   }
@@ -152,12 +150,11 @@ class _FavoritePageState extends State<FavoritePage> {
                       ),
                       tooltip: 'Hapus dari Favorit',
                       onPressed: () async {
-                        // Hapus artikel dari daftar favorit
+
                         await _favService.removeFavorite(item);
 
                         if (!context.mounted) return;
 
-                        // SnackBar pemberitahuan bahwa artikel telah dihapus
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Dihapus dari favorite'),
@@ -175,7 +172,7 @@ class _FavoritePageState extends State<FavoritePage> {
                           builder: (context) => DetailPage(item: item),
                         ),
                       ).then((_) {
-                        // Penjaga Kepulangan: Refresh layar seketika saat kembali
+
                         setState(() {});
                       });
                     },

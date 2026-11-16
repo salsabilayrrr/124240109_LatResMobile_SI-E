@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+
 import '../models/item_model.dart';
 
 class ApiService {
@@ -7,7 +9,6 @@ class ApiService {
   static const String baseUrl = 'https://api.spaceflightnewsapi.net/v4';
 
   // 1. Fungsi untuk mengambil daftar artikel (News, Blog, atau Reports)
-  // parameter category diisi: 'articles', 'blogs', atau 'reports'
   static Future<List<ItemModel>> getItems(String category) async {
     // Tambahkan ?limit=30 agar data yang diambil cukup banyak untuk filter dan scroll
     final url = Uri.parse('$baseUrl/$category/?limit=30');
@@ -24,9 +25,13 @@ class ApiService {
         final List<dynamic> results = data['results'] ?? [];
 
         // Mengubah tiap butir data JSON menjadi objek ItemModel
-        return results.map((item) => ItemModel.fromJson(item, category: category)).toList();
+        return results
+            .map((item) => ItemModel.fromJson(item, category: category))
+            .toList();
       } else {
-        throw Exception('Gagal memuat data dari server (Kode: ${response.statusCode})');
+        throw Exception(
+          'Gagal memuat data dari server (Kode: ${response.statusCode})',
+        );
       }
     } catch (e) {
       throw Exception('Terjadi kesalahan jaringan: $e');
@@ -44,7 +49,9 @@ class ApiService {
         final Map<String, dynamic> data = jsonDecode(response.body);
         return ItemModel.fromJson(data, category: category);
       } else {
-        throw Exception('Gagal memuat detail artikel (Kode: ${response.statusCode})');
+        throw Exception(
+          'Gagal memuat detail artikel (Kode: ${response.statusCode})',
+        );
       }
     } catch (e) {
       throw Exception('Terjadi kesalahan jaringan saat memuat detail: $e');

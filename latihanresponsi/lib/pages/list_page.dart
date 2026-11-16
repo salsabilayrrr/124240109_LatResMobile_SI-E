@@ -5,8 +5,8 @@ import 'detail_page.dart';
 import 'favorite_page.dart';
 
 class ListPage extends StatefulWidget {
-  final String title;     // 'News', 'Blog', atau 'Reports'
-  final String endpoint;  // 'articles', 'blogs', atau 'reports'
+  final String title;     
+  final String endpoint;  
 
   const ListPage({
     super.key,
@@ -21,7 +21,6 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
   late Future<List<ItemModel>> _futureItems;
 
-  // Variabel penyimpan author yang sedang dipilih untuk filter (null = tampilkan semua)
   String? _selectedAuthor;
 
   @override
@@ -32,7 +31,7 @@ class _ListPageState extends State<ListPage> {
 
   void _loadData() {
     setState(() {
-      _selectedAuthor = null; // Reset filter saat data dimuat ulang
+      _selectedAuthor = null; 
       _futureItems = ApiService.getItems(widget.endpoint);
     });
   }
@@ -107,7 +106,7 @@ class _ListPageState extends State<ListPage> {
             );
           }
 
-          // ================= LOGIKA FITUR FILTER (20 Poin) =================
+          // ================= LOGIKA FITUR FILTER =================
           // 1. Ekstrak seluruh author unik (menghapus nama yang dobel) menggunakan .toSet()
           final List<String> uniqueAuthors = allItems
               .map((item) => item.author)
@@ -146,7 +145,7 @@ class _ListPageState extends State<ListPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        // Logika Toggle: klik untuk memilih, klik lagi untuk batal (tampilkan semua)
+
                         onSelected: (bool selected) {
                           setState(() {
                             _selectedAuthor = selected ? author : null;
@@ -185,7 +184,6 @@ class _ListPageState extends State<ListPage> {
                               ),
                               child: ListTile(
                                 contentPadding: const EdgeInsets.all(10),
-                                // Thumbnail Gambar + Error Handling
                                 leading: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
                                   child: SizedBox(

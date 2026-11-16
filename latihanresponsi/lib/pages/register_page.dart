@@ -9,11 +9,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // Pengendali teks untuk menangkap ketikan pengguna
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Bersihkan controller dari memori HP saat halaman ditutup
   @override
   void dispose() {
     _usernameController.dispose();
@@ -21,12 +19,10 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  // Fungsi saat tombol Daftar ditekan
   void _handleRegister() async {
     final String username = _usernameController.text.trim();
     final String password = _passwordController.text.trim();
 
-    // Validasi: tidak boleh ada kolom yang kosong
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -37,12 +33,10 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    // Simpan akun ke SharedPreferences melalui AuthService
     await AuthService.register(username, password);
 
     if (!mounted) return;
 
-    // Tampilkan notifikasi hijau tanda sukses
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Pendaftaran Berhasil! Silakan Login.'),
@@ -50,7 +44,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    // Kembali ke halaman Login
     Navigator.pop(context);
   }
 
@@ -66,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Judul Halaman
+              
               const Text(
                 'Daftar Akun Baru',
                 style: TextStyle(
@@ -76,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 32),
 
-              // Field Input Username
+              
               TextField(
                 controller: _usernameController,
                 decoration: InputDecoration(
@@ -88,10 +81,9 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 16),
 
-              // Field Input Password
               TextField(
                 controller: _passwordController,
-                obscureText: true, // Menyembunyikan karakter jadi titik-titik
+                obscureText: true, 
                 decoration: InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(
@@ -101,7 +93,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 24),
 
-              // Tombol Daftar
               ElevatedButton(
                 onPressed: _handleRegister,
                 style: ElevatedButton.styleFrom(

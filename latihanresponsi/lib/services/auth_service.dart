@@ -27,13 +27,13 @@ class AuthService {
         registeredPass != null &&
         registeredUser == username &&
         registeredPass == password) {
-      // Jika cocok, catat status login = true dan catat siapa username-nya
+
       await prefs.setBool(_keyIsLoggedIn, true);
       await prefs.setString(_keyLoggedUser, username);
-      return true; // Login Berhasil
+      return true;
     }
 
-    return false; // Login Gagal (belum terdaftar atau password salah)
+    return false; 
   }
 
   // 3. FUNGSI LOGOUT: Mengubah status login kembali menjadi false
