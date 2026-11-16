@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/home_page.dart';
 import 'pages/login_page.dart';
+import 'services/favorite_service.dart';
 
 void main() async {
   // 1. Memastikan seluruh mesin internal Flutter siap sebelum membaca memori HP
@@ -11,6 +12,10 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final bool isLoggedIn = prefs.getBool('is_logged_in') ?? false;
   final String savedUsername = prefs.getString('logged_username') ?? '';
+  
+  if (isLoggedIn) {
+    await FavoriteService().loadFavorites();
+  }
 
   // 3. Menjalankan aplikasi dengan membawa hasil cek login
   runApp(MainApp(
