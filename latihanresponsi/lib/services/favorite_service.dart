@@ -1,6 +1,8 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/item_model.dart';
 import 'auth_service.dart';
 
@@ -33,7 +35,12 @@ class FavoriteService extends ChangeNotifier {
     for (String itemStr in rawList) {
       try {
         final Map<String, dynamic> jsonMap = jsonDecode(itemStr);
-        _favorites.add(ItemModel.fromJson(jsonMap, category: jsonMap['category'] ?? 'articles'));
+        _favorites.add(
+          ItemModel.fromJson(
+            jsonMap,
+            category: jsonMap['category'] ?? 'articles',
+          ),
+        );
       } catch (e) {
         debugPrint('Gagal membaca satu item favorit: $e');
       }
